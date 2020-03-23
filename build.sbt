@@ -1,4 +1,4 @@
-name := "declare-transit-movement-arrival-journey-tests"
+name := "declare-transit-movement-unloading-journey-test"
 
 version := "1.0"
 
