@@ -16,6 +16,10 @@ class CommonSteps extends ScalaDsl with EN with ScreenShotUtility {
     Page.goToArrivalHomePage()
   }
 
+  Given("""^I am on the Unloading remarks start page$""") {
+    Page.goToUnloadingRemarksHomePage()
+  }
+
   Given("""^I am on the home page$""") {
     Page.goToManageHomePage()
   }
@@ -54,16 +58,10 @@ class CommonSteps extends ScalaDsl with EN with ScreenShotUtility {
       Page.submitYesNoPage(prettyUrl, answer)
   }
 
-  When("""^(?:I )?answer (A different container|A different vehicle|Both) on the (.+) page$""") {
-    (answer: String, prettyUrl: String) =>
+  When("""^(?:I )?input date (.*)/(.*)/(.*) on the (.+) page$""") {
+    (day: String, month: String, year: String, prettyUrl: String) =>
       Page.accessibilityCheck()
-      TranshipmentTypePage.submitRadioPage(prettyUrl, answer)
-  }
-
-  When("""^(?:I )?enter a date of (\d+)/(\d+)/(\d+) on the (.+) page$""") {
-    (day: String, month: String, year: String, title: String) =>
-      Page.accessibilityCheck()
-      Page.submitDateValuePage(title, day, month, year)
+      Page.submitDateValuePage(prettyUrl, day, month, year)
   }
 
   Then("""^(?:I )?(?:should )?be on the (.+) page$""") {

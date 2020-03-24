@@ -10,6 +10,8 @@ object Configuration {
 
   val traderArrivalPort                = 9483
   val traderArrivalUri                 = "common-transit-convention-trader-arrival"
+  val unloadingRemarkPort              = 9488
+  val unloadingArrivalUri              = "common-transit-convention-unloading-arrival"
   val manageTraderTransitMovementsPort = 9485
   val manageTraderTransitMovementsUri  = "manage-transit-movements"
   val authLoginPort                    = 9949
@@ -39,21 +41,21 @@ object Configuration {
       case Environment.dev =>
         new Configuration(
           authLoginUrl = "https://www.development.tax.service.gov.uk/auth-login-stub/gg-sign-in",
-          applicationsBaseUrl = s"https://www.development.tax.service.gov.uk/$traderArrivalUri",
+          applicationsBaseUrl = s"https://www.development.tax.service.gov.uk/$unloadingArrivalUri",
           manageBaseUrl = s"https://www.development.tax.service.gov.uk/$manageTraderTransitMovementsUri",
           timeout = 30
         )
       case Environment.local =>
         new Configuration(
           authLoginUrl = s"http://localhost:$authLoginPort/auth-login-stub/gg-sign-in",
-          applicationsBaseUrl = s"http://localhost:$traderArrivalPort/$traderArrivalUri",
+          applicationsBaseUrl = s"http://localhost:$unloadingRemarkPort/$unloadingArrivalUri",
           manageBaseUrl = s"http://localhost:$manageTraderTransitMovementsPort/$manageTraderTransitMovementsUri",
           timeout = 30
         )
       case Environment.qa =>
         new Configuration(
           authLoginUrl = "https://www.qa.tax.service.gov.uk/auth-login-stub/gg-sign-in",
-          applicationsBaseUrl = s"https://www.qa.tax.service.gov.uk/$traderArrivalUri",
+          applicationsBaseUrl = s"https://www.qa.tax.service.gov.uk/$unloadingArrivalUri",
           manageBaseUrl = s"https://www.qa.tax.service.gov.uk/$manageTraderTransitMovementsUri",
           timeout = 30
         )

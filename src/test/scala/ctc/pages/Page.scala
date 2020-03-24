@@ -103,7 +103,7 @@ trait Page extends Matchers with ScreenShotUtility {
 
   def authenticate(id: String) = {
     goToAuthPage()
-    val redirectUrl = s"${Configuration.settings.applicationsBaseUrl}/movement-reference-number"
+    val redirectUrl = s"${Configuration.settings.applicationsBaseUrl}/99IT9876AB88901209/unloading-guidance"
     fillInput(By.cssSelector("*[name='redirectionUrl']"), redirectUrl)
     fillInput(By.cssSelector("*[name='enrolment[1].name']"), "HMCE-NCTS-ORG")
     fillInput(By.cssSelector("*[name='enrolment[1].taxIdentifier[0].name']"), "VATRegNoTURN")
@@ -115,6 +115,12 @@ trait Page extends Matchers with ScreenShotUtility {
     val url = s"${Configuration.settings.applicationsBaseUrl}/movement-reference-number"
     webDriver.navigate().to(url)
     urlShouldMatch("movement-reference-number")
+  }
+
+  def goToUnloadingRemarksHomePage(): Unit = {
+    val url = s"${Configuration.settings.applicationsBaseUrl}/99IT9876AB88901209/unloading-guidance"
+    webDriver.navigate().to(url)
+    urlShouldMatch("unloading-guidance")
   }
 
   def submitValuePage(url: String, answer: String) = {
@@ -151,7 +157,7 @@ trait Page extends Matchers with ScreenShotUtility {
 
   def submitDateValuePage(prettyUrl: String, day: String, month: String, year: String, baseId: String = "value") = {
     urlShouldMatch(prettyUrl)
-    fillInputById(s"${baseId}_day", day)
+    fillInputById(s"$baseId", day)
     fillInputById(s"${baseId}_month", month)
     fillInputById(s"${baseId}_year", year)
     clickSubmit()
