@@ -21,7 +21,7 @@ import uk.gov.hmrc.extentreport.Reporter
     "json:target/cucumber.json",
     "uk.gov.hmrc.extentreport.ExtentCucumberFormatter:target/test-reports/html-report/index.html"
   ),
-  tags = Array("@arrival_submission")
+  tags = Array("@unloading_remarks")
 )
 class Runner
 
