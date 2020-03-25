@@ -16,17 +16,13 @@ class CommonSteps extends ScalaDsl with EN with ScreenShotUtility {
     Page.goToArrivalHomePage()
   }
 
-  Given("""^I am on the Unloading remarks start page$""") {
-    Page.goToUnloadingRemarksHomePage()
+  Given("""^I am on the Unloading remarks start page for MRN (.*)$""") {
+    (mrn: String) =>
+      Page.goToUnloadingRemarksHomePage(mrn)
   }
 
   Given("""^I am on the home page$""") {
     Page.goToManageHomePage()
-  }
-
-  Given("""^I am authenticated with user (.*)$""") {
-    (id: String) =>
-      Page.authenticate(id)
   }
 
   And("""^(?:I )?enter (.+) on the (.+) page$""") {
