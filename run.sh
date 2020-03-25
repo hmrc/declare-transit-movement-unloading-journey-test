@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-sbt -Dbrowser=chrome -Denvironment=local 'testOnly ctc.suites.Runner'
+sbt -Dbrowser=firefox -Denvironment=local 'testOnly ctc.suites.Runner'
