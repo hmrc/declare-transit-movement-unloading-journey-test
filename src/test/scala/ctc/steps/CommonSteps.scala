@@ -103,4 +103,11 @@ class CommonSteps extends ScalaDsl with EN with ScreenShotUtility {
       Page.urlShouldMatch(url)
       Page.clickById(id)
   }
+
+  And("""^(?:I )?click on change (.+)""") {
+    page: String =>
+      val tailOfId = page.replace(" ", "-").toLowerCase
+      val id       = s"change-$tailOfId"
+      Page.clickById(id)
+  }
 }
