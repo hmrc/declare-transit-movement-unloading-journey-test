@@ -17,6 +17,8 @@ Feature: Ability to submit unloading remarks
     Then I should be on the unloading summary page
     Then I click the Add comment link
     When I enter stowaways found on the changes to report page
+    Then I should be on the unloading summary page
+    When I clicked the submit button
     Then I should be on the check your answers page
     When I clicked the submit button
     Then I should be on the confirmation page
@@ -44,8 +46,7 @@ Feature: Ability to submit unloading remarks
     Then I should be on the date goods unloaded page
     When I input date 24/03/2020 on the date goods unloaded page
     Then I should be on the unloading summary page
-    Then I click the Add comment link
-    When I enter stowaways found on the changes to report page
+    When I clicked the submit button
     Then I should be on the check your answers page
     When I clicked the submit button
     Then I should be on the confirmation page
