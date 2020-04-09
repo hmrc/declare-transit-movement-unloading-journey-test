@@ -18,8 +18,8 @@ Feature: Ability to submit unloading remarks
     Then I click the Add comment link
     When I enter stowaways found on the changes to report page
     Then I should be on the unloading summary page
-    When I click the Remove link
-    When I answer No on the confirm remove comment page
+    When I clicked the remove-comment button
+    When I answer No on the confirm remove comments page
     Then I should be on the unloading summary page
     When I clicked the submit button
     Then I should be on the check your answers page
