@@ -55,3 +55,4 @@
     docker ps                                   # Lists all running containers
     docker stop $(docker ps -a -q)              # Stops all running containers
     docker exec -it <container id> /bin/bash    # Bash access to container
+
