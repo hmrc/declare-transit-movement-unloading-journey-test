@@ -26,7 +26,7 @@ Feature: Ability to submit unloading remarks
     When I clicked the submit button
     Then I should be on the confirmation page
 
-  Scenario: Simple unloading remark with changes to summary answers
+  Scenario: Simple unloading remark with changes to summary and final answers
 
     And I am on the Unloading remarks start page for MRN 19IT02110010007827
     When I clicked the submit button
@@ -41,6 +41,13 @@ Feature: Ability to submit unloading remarks
     When I click on change gross mass
     And I enter 1500 on the change gross mass amount page
     Then I should be on the unloading summary page
+    When I clicked the submit button
+    Then I should be on the check your answers page
+    When I click on change date goods unloaded
+    When I input date 15/04/2020 on the date goods unloaded page
+    Then I should be on the check your answers page
+    When I clicked the submit button
+    Then I should be on the confirmation page
 
   Scenario: Simple unloading remark without seals, with changes to report
 
