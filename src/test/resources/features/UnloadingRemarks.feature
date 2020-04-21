@@ -6,7 +6,7 @@ Feature: Ability to submit unloading remarks
 
     Given I clear my cookies
 
-  Scenario 1: Unloading remarks with seals, no changes to seals but have other changes to report
+  Scenario: 1 - Unloading remarks with seals, no changes to seals but have other changes to report
 
     And I am on the Unloading remarks start page for MRN 19IT02110010007827
     When I clicked the submit button
@@ -26,7 +26,7 @@ Feature: Ability to submit unloading remarks
     When I clicked the submit button
     Then I should be on the confirmation page
 
-  Scenario 2: Unloading remarks with changes to summary answers
+  Scenario: 2 - Unloading remarks with changes to summary answers
 
     And I am on the Unloading remarks start page for MRN 19IT02110010007827
     When I clicked the submit button
@@ -49,7 +49,7 @@ Feature: Ability to submit unloading remarks
     When I clicked the submit button
     Then I should be on the confirmation page
 
-    Scenario 3: Unloading Remarks with seals, changes the check seals section from CYA page
+    Scenario: 3 - Unloading Remarks with seals, changes the check seals section from CYA page
 
     And I am on the Unloading remarks start page for MRN 19IT02110010007827
     When I clicked the submit button
@@ -69,7 +69,7 @@ Feature: Ability to submit unloading remarks
     When I clicked the submit button
     Then I should be on the confirmation page
 
-  Scenario 4: Unloading remarks without seals, with no changes to report
+  Scenario: 4 - Unloading remarks without seals, with no changes to report
 
     And I am on the Unloading remarks start page for MRN 99IT9876AB88901209
     When I clicked the submit button
