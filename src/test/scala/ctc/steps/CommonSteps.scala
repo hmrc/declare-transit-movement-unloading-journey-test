@@ -89,7 +89,7 @@ class CommonSteps extends ScalaDsl with EN with ScreenShotUtility {
   When("""^search for '(.+)'$""") {
     searchString: String =>
       Page.accessibilityCheck()
-      Page.submitValuePage("search applications", searchString)
+      Page.submitValuePage("search", searchString)
   }
 
   When("""^(?:I )?click the (.+) link$""") {
@@ -106,8 +106,8 @@ class CommonSteps extends ScalaDsl with EN with ScreenShotUtility {
 
   And("""^(?:I )?click on change (.+)""") {
     page: String =>
-      val tailOfId = page.replace(" ", "-").toLowerCase
-      val id       = s"change-$tailOfId"
-      Page.clickById(id)
+      val id       = page.replace(" ", "-").toLowerCase
+      val actualID = s"change-$id"
+      Page.clickById(actualID)
   }
 }
