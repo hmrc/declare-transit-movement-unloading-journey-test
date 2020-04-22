@@ -38,18 +38,22 @@ Feature: Ability to submit unloading remarks
     When I click on change vehicle reference
     And I enter NE20 CTC on the change vehicle name registration reference page
     Then I should be on the unloading summary page
-    When I click on change gross mass
-    And I enter 1500 on the change gross mass amount page
-    Then I should be on the unloading summary page
     When I clicked the submit button
     Then I should be on the check your answers page
     When I click on change date goods unloaded
     And I input date 15/04/2020 on the date goods unloaded page
     Then I should be on the check your answers page
+    When I click on change answers
+    Then I should be on the unloading summary page
+    When I click on change gross mass
+    And I enter 1500 on the change gross mass amount page
+    Then I should be on the unloading summary page
+    When I clicked the submit button
+    Then I should be on the check your answers page
     When I clicked the submit button
     Then I should be on the confirmation page
 
-    Scenario: 3 - Unloading Remarks with seals, changes the check seals section from CYA page
+    Scenario: 3 - Unloading Remarks with seals, adds new seals and changes the check seals section from CYA page
 
     And I am on the Unloading remarks start page for MRN 19IT02110010007827
     When I clicked the submit button
@@ -57,6 +61,9 @@ Feature: Ability to submit unloading remarks
     When I input date 24/03/2020 on the Date goods unloaded page
     When I answer Yes on the can seals be read page
     When I answer No on the are any seals broken page
+    Then I should be on the unloading summary page
+    When I click the Add a new seal number link
+    And I enter Seal123xyz found on the new seal number page
     Then I should be on the unloading summary page
     And I clicked the submit button
     Then I should be on the check your answers page
