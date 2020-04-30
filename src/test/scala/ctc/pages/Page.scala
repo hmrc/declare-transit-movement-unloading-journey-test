@@ -41,7 +41,7 @@ trait Page extends Matchers with ScreenShotUtility {
     }
 
   protected def bringIntoView(id: String, action: WebElement => Unit) = {
-    val element = waitForElement(By.id(id))
+    val element                  = waitForElement(By.id(id))
     val jse2: JavascriptExecutor = webDriver.asInstanceOf[JavascriptExecutor]
     jse2.executeScript("arguments[0].scrollIntoView()", element)
     action(element)

@@ -68,7 +68,8 @@ Feature: Ability to submit unloading remarks
     Then I should be on the unloading summary page
     When I click on remove seal for item 3
     And I answer Yes on the confirm remove seal page
-    And I clicked the submit button
+    Then I should be on the unloading summary page
+    When I clicked the submit button
     Then I should be on the check your answers page
     When I click on change can seals be read
     And I answer No on the change can seals be read page
