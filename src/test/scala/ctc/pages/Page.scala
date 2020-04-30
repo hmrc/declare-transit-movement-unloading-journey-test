@@ -47,13 +47,26 @@ trait Page extends Matchers with ScreenShotUtility {
     action(element)
   }
 
+  protected def bringIntoViewLink(linkText: String, action: WebElement => Unit) = {
+    val element                  = waitForElement(By.linkText(linkText))
+    val jse2: JavascriptExecutor = webDriver.asInstanceOf[JavascriptExecutor]
+    jse2.executeScript("arguments[0].scrollIntoView()", element)
+    action(element)
+  }
+
   def clearCookies() = webDriver.manage().deleteAllCookies()
 
   def click(by: By) = webDriver.findElement(by).click()
 
   def clickById(id: String) = click(By.id(id))
 
-  def clickByLinkText(linkText: String) = click(By.linkText(linkText))
+  def clickByLinkText(linkText: String) =
+    bringIntoViewLink(linkText, {
+      e =>
+        e.click()
+    })
+
+//  def clickByLinkText(linkText: String) = click(By.linkText(linkText))
 
   def clickByPartialLinkText(linkText: String) = click(By.partialLinkText(linkText))
 
