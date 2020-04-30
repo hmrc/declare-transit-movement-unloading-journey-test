@@ -110,4 +110,10 @@ class CommonSteps extends ScalaDsl with EN with ScreenShotUtility {
       val actualID = s"change-$id"
       Page.clickById(actualID)
   }
+  When("""(?:I )?click on (.+) for item (.+)""") {
+    (action: String, index: Int) =>
+      val updateIndex = index - 1
+      val id          = s"${action.replace(" ", "-")}-$updateIndex"
+      Page.clickById(id)
+  }
 }

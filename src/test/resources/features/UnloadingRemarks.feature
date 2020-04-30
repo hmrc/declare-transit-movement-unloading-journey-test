@@ -53,7 +53,8 @@ Feature: Ability to submit unloading remarks
     When I clicked the submit button
     Then I should be on the confirmation page
 
-    Scenario: 3 - Unloading Remarks with seals, adds new seals and changes the check seals section from CYA page
+
+  Scenario: 3 - Unloading Remarks with seals, adds new seals and changes the check seals section from CYA page
 
     And I am on the Unloading remarks start page for MRN 19IT02110010007827
     When I clicked the submit button
@@ -65,6 +66,8 @@ Feature: Ability to submit unloading remarks
     When I click the Add a new seal number link
     And I enter Seal123xyz found on the new seal number page
     Then I should be on the unloading summary page
+    When I click on remove seal for item 3
+    And I answer Yes on the confirm remove seal page
     And I clicked the submit button
     Then I should be on the check your answers page
     When I click on change can seals be read
