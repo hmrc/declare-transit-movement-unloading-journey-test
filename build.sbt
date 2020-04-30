@@ -36,7 +36,7 @@ libraryDependencies ++= Seq(
   "org.scalatest"              %% "scalatest"              % "3.0.5",
   "ch.qos.logback"             % "logback-classic"         % "1.2.3",
   "com.typesafe.scala-logging" %% "scala-logging"          % "3.8.0",
-  "uk.gov.hmrc"                %% "zap-automation"         % "1.4.0",
+  "uk.gov.hmrc"                %% "zap-automation"         % "2.6.0",
   "uk.gov.hmrc"                %% "webdriver-factory"      % "0.10.0",
   "uk.gov.hmrc"                %% "extent-report"          % "0.8.0",
   "com.aventstack"             % "extentreports"           % "4.0.9" % "provided"
