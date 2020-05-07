@@ -53,6 +53,7 @@ Feature: Ability to submit unloading remarks
     When I clicked the submit button
     Then I should be on the confirmation page
 
+  @a11y
   Scenario: 3 - Unloading Remarks with seals, adds new seals and changes the check seals section from CYA page
 
     And I am on the Unloading remarks start page for MRN 19IT02110010007827
