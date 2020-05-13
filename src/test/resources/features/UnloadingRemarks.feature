@@ -48,6 +48,12 @@ Feature: Ability to submit unloading remarks
     When I click on change gross mass
     And I enter 1500 on the change gross mass amount page
     Then I should be on the unloading summary page
+    When I click on change total number of items
+    And I enter 150 on the change total number of items page
+    Then I should be on the unloading summary page
+    When I click on change total number of packages
+    And I enter 150 on the change total number of packages page
+    Then I should be on the unloading summary page
     When I clicked the submit button
     Then I should be on the check your answers page
     When I clicked the submit button
