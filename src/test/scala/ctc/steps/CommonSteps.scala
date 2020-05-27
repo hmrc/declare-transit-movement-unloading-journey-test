@@ -16,9 +16,9 @@ class CommonSteps extends ScalaDsl with EN with ScreenShotUtility {
     Page.goToArrivalHomePage()
   }
 
-  Given("""^I am on the Unloading remarks start page for MRN (.*)$""") {
-    (mrn: String) =>
-      Page.goToUnloadingRemarksHomePage(mrn)
+  Given("""^I am on the Unloading remarks start page for Arrival Id (.*)$""") {
+    (arrivalId: String) =>
+      Page.goToUnloadingRemarksHomePage(arrivalId)
   }
 
   Given("""^I am on the home page$""") {
