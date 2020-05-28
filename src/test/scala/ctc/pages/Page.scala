@@ -101,9 +101,9 @@ trait Page extends Matchers with ScreenShotUtility {
     webDriver.navigate().to(authUrl)
   }
 
-  def authenticate(mrn: String) = {
+  def authenticate(arrivalId: String) = {
     goToAuthPage()
-    val redirectUrl = s"${Configuration.settings.applicationsBaseUrl}/$mrn/unloading-guidance"
+    val redirectUrl = s"${Configuration.settings.applicationsBaseUrl}/$arrivalId"
     fillInput(By.cssSelector("*[name='redirectionUrl']"), redirectUrl)
     fillInput(By.cssSelector("*[name='enrolment[1].name']"), "HMCE-NCTS-ORG")
     fillInput(By.cssSelector("*[name='enrolment[1].taxIdentifier[0].name']"), "VATRegNoTURN")
@@ -117,8 +117,8 @@ trait Page extends Matchers with ScreenShotUtility {
     urlShouldMatch("movement-reference-number")
   }
 
-  def goToUnloadingRemarksHomePage(mrn: String): Unit = {
-    authenticate(mrn)
+  def goToUnloadingRemarksHomePage(arrivalId: String): Unit = {
+    authenticate(arrivalId)
     urlShouldMatch("unloading-guidance")
   }
 
