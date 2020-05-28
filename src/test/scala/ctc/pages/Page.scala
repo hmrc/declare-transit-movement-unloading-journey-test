@@ -103,7 +103,7 @@ trait Page extends Matchers with ScreenShotUtility {
 
   def authenticate(arrivalId: String) = {
     goToAuthPage()
-    val redirectUrl = s"${Configuration.settings.applicationsBaseUrl}/$arrivalId/unloading-guidance"
+    val redirectUrl = s"${Configuration.settings.applicationsBaseUrl}/$arrivalId"
     fillInput(By.cssSelector("*[name='redirectionUrl']"), redirectUrl)
     fillInput(By.cssSelector("*[name='enrolment[1].name']"), "HMCE-NCTS-ORG")
     fillInput(By.cssSelector("*[name='enrolment[1].taxIdentifier[0].name']"), "VATRegNoTURN")
