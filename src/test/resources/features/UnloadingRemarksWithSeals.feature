@@ -8,7 +8,7 @@ Feature: Ability to submit unloading remarks with seals
     And I am on the Unloading remarks start page for Arrival Id 1
     When I clicked the submit button
     Then I should be on the Date goods unloaded page
-    When I input date 24/03/2020 on the Date goods unloaded page
+    When I input today's date on the Date goods unloaded page
     When I answer Yes on the can seals be read page
     When I answer No on the are any seals broken page
     Then I should be on the unloading summary page
@@ -23,8 +23,8 @@ Feature: Ability to submit unloading remarks with seals
     Then I should be on the unloading summary page
     When I clicked the submit button
     Then I should be on the check your answers page
-    When I clicked the submit button
-    Then I should be on the confirmation page
+#    When I clicked the submit button
+#    Then I should be on the confirmation page
 
   Scenario: 2 - Unloading remarks with changes to summary answers
     
@@ -49,8 +49,8 @@ Feature: Ability to submit unloading remarks with seals
     Then I should be on the unloading summary page
     When I clicked the submit button
     Then I should be on the check your answers page
-    When I clicked the submit button
-    Then I should be on the confirmation page
+#    When I clicked the submit button
+#    Then I should be on the confirmation page
 
   @a11y
   Scenario: 3 - Unloading Remarks with seals, adds new seals and changes the check seals section from CYA page
@@ -69,5 +69,5 @@ Feature: Ability to submit unloading remarks with seals
     When I click on change are any seals broken
     And I answer Yes on the change are any seals broken page
     Then I should be on the check your answers page
-    When I clicked the submit button
-    Then I should be on the confirmation page
+#    When I clicked the submit button
+#    Then I should be on the confirmation page

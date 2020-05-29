@@ -60,6 +60,12 @@ class CommonSteps extends ScalaDsl with EN with ScreenShotUtility {
       Page.submitDateValuePage(prettyUrl, day, month, year)
   }
 
+  When("""^(?:I )?input today's date on the (.+) page$""") {
+    (prettyUrl: String) =>
+      Page.accessibilityCheck()
+      Page.submitDateNowPage(prettyUrl)
+  }
+
   Then("""^(?:I )?(?:should )?be on the (.+) page$""") {
     prettyUrl: String =>
       Page.urlShouldMatch(prettyUrl)
