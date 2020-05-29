@@ -1,5 +1,7 @@
 package ctc.pages
 
+import java.time.LocalDate
+
 import cucumber.api.DataTable
 import ctc.driver.Driver
 import ctc.models.FormInput
@@ -13,6 +15,7 @@ import org.openqa.selenium.support.ui.WebDriverWait
 import org.openqa.selenium._
 import org.openqa.selenium.interactions.Actions
 import org.scalatest._
+
 import scala.collection.JavaConverters._
 
 object Page extends Page
@@ -159,6 +162,14 @@ trait Page extends Matchers with ScreenShotUtility {
     fillInputById(s"$baseId", day)
     fillInputById(s"${baseId}_month", month)
     fillInputById(s"${baseId}_year", year)
+    clickSubmit()
+  }
+
+  def submitDateNowPage(prettyUrl: String, baseId: String = "value") = {
+    urlShouldMatch(prettyUrl)
+    fillInputById(s"$baseId", s"${LocalDate.now().getDayOfMonth}")
+    fillInputById(s"${baseId}_month", s"${LocalDate.now().getMonthValue}")
+    fillInputById(s"${baseId}_year", s"${LocalDate.now().getYear}")
     clickSubmit()
   }
 
