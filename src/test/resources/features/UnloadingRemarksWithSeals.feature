@@ -5,7 +5,7 @@ Feature: Ability to submit unloading remarks with seals
   Background: Trader selects to add unloading remarks
 
     Given I clear my cookies
-    And I am on the Unloading remarks start page for Arrival Id 1
+    And I am on the Unloading remarks start page for Arrival Id 2
     When I clicked the submit button
     Then I should be on the Date goods unloaded page
     When I input today's date on the Date goods unloaded page
@@ -23,8 +23,8 @@ Feature: Ability to submit unloading remarks with seals
     Then I should be on the unloading summary page
     When I clicked the submit button
     Then I should be on the check your answers page
-#    When I clicked the submit button
-#    Then I should be on the confirmation page
+    When I clicked the submit button
+    Then I should be on the confirmation page
 
   Scenario: 2 - Unloading remarks with changes to summary answers
     
@@ -49,8 +49,8 @@ Feature: Ability to submit unloading remarks with seals
     Then I should be on the unloading summary page
     When I clicked the submit button
     Then I should be on the check your answers page
-#    When I clicked the submit button
-#    Then I should be on the confirmation page
+    When I clicked the submit button
+    Then I should be on the confirmation page
 
   @a11y
   Scenario: 3 - Unloading Remarks with seals, adds new seals and changes the check seals section from CYA page
@@ -58,7 +58,7 @@ Feature: Ability to submit unloading remarks with seals
     When I click the Add a new seal number link
     And I enter Seal123xyz found on the new seal number page
     Then I should be on the unloading summary page
-    When I click on remove seal for item 3
+    When I click on remove seal for item 4
     And I answer Yes on the confirm remove seal page
     Then I should be on the unloading summary page
     When I clicked the submit button
@@ -69,5 +69,5 @@ Feature: Ability to submit unloading remarks with seals
     When I click on change are any seals broken
     And I answer Yes on the change are any seals broken page
     Then I should be on the check your answers page
-#    When I clicked the submit button
-#    Then I should be on the confirmation page
+    When I clicked the submit button
+    Then I should be on the confirmation page
