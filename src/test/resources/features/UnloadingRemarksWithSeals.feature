@@ -29,7 +29,7 @@ Feature: Ability to submit unloading remarks with seals
   Scenario: 2 - Unloading remarks with changes to summary answers
     
     When I click on change vehicle reference
-    And I enter NE20 CTC on the change vehicle name registration reference page
+    And I enter NE20CTC on the change vehicle name registration reference page
     Then I should be on the unloading summary page
     When I clicked the submit button
     Then I should be on the check your answers page
@@ -56,7 +56,7 @@ Feature: Ability to submit unloading remarks with seals
   Scenario: 3 - Unloading Remarks with seals, adds new seals and changes the check seals section from CYA page
 
     When I click the Add a new seal number link
-    And I enter Seal123xyz found on the new seal number page
+    And I enter Seal123xyz on the new seal number page
     Then I should be on the unloading summary page
     When I click on remove seal for item 4
     And I answer Yes on the confirm remove seal page
