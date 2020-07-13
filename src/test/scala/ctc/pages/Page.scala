@@ -104,9 +104,10 @@ trait Page extends Matchers with ScreenShotUtility {
     webDriver.navigate().to(authUrl)
   }
 
-  def authenticate(arrivalId: String) = {
+  def authenticate(arrivalId: String, rejectionJourney: Boolean = false) = {
     goToAuthPage()
-    val redirectUrl = s"${Configuration.settings.applicationsBaseUrl}/$arrivalId"
+    val url         = s"${Configuration.settings.applicationsBaseUrl}/$arrivalId"
+    val redirectUrl = if (rejectionJourney) s"$url/unloading-rejection" else url
     fillInput(By.cssSelector("*[name='redirectionUrl']"), redirectUrl)
     fillInput(By.cssSelector("*[name='enrolment[1].name']"), "HMCE-NCTS-ORG")
     fillInput(By.cssSelector("*[name='enrolment[1].taxIdentifier[0].name']"), "VATRegNoTURN")
@@ -126,7 +127,7 @@ trait Page extends Matchers with ScreenShotUtility {
   }
 
   def goToUnloadingRemarksRejectionPage(url: String, arrivalId: String): Unit = {
-    authenticate(arrivalId)
+    authenticate(arrivalId, true)
     urlShouldMatch(url)
   }
 
