@@ -125,6 +125,11 @@ trait Page extends Matchers with ScreenShotUtility {
     urlShouldMatch("unloading-guidance")
   }
 
+  def goToUnloadingRemarksRejectionPage(url: String, arrivalId: String): Unit = {
+    authenticate(arrivalId)
+    urlShouldMatch(url)
+  }
+
   def submitValuePage(url: String, answer: String) = {
     urlShouldMatch(url)
     fillInputById("value", answer)

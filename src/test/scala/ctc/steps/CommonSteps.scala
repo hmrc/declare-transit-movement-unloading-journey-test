@@ -25,6 +25,11 @@ class CommonSteps extends ScalaDsl with EN with ScreenShotUtility {
     Page.goToManageHomePage()
   }
 
+  Given("""^I authenticate on (.+) page for Arrival Id (.*)$""") {
+    (prettyUrl: String, arrivalId: String) =>
+      Page.goToUnloadingRemarksRejectionPage(prettyUrl, arrivalId)
+  }
+
   And("""^(?:I )?enter (.+) on the (.+) page$""") {
     (answer: String, url: String) =>
       Page.accessibilityCheck()
