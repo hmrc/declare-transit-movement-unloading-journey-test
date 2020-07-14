@@ -1,6 +1,5 @@
 @unloading_remarks
 
-@wip
 Feature: Trader view and fix errors for Unloading Remarks rejections
 
   Background: Trader clicks to view arrival notifications
