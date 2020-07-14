@@ -127,7 +127,7 @@ trait Page extends Matchers with ScreenShotUtility {
   }
 
   def goToUnloadingRemarksRejectionPage(url: String, arrivalId: String): Unit = {
-    authenticate(arrivalId, true)
+    authenticate(arrivalId, rejectionJourney = true)
     urlShouldMatch(url)
   }
 
