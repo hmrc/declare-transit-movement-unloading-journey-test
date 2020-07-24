@@ -1,4 +1,4 @@
-@wip
+@unloading_remarks
 
 Feature: Trader view and fix errors for Unloading Remarks rejections
 
@@ -30,7 +30,3 @@ Feature: Trader view and fix errors for Unloading Remarks rejections
     Then I should be on the Unloading rejection page
     When I click the create new unloading remarks link
     Then I should be on the Unloading guidance page
-
-
-
-
