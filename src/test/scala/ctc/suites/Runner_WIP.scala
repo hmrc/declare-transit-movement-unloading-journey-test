@@ -15,12 +15,7 @@ import uk.gov.hmrc.extentreport.Reporter
 @CucumberOptions(
   features = Array("src/test/resources/features"),
   glue = Array("ctc.steps"),
-  format = Array(
-    "pretty",
-    "html:target/cucumber",
-    "json:target/cucumber.json",
-    "uk.gov.hmrc.extentreport.ExtentCucumberFormatter:target/test-reports/html-report/index.html"
-  ),
+  plugin = Array("pretty", "html:target/cucumber", "json:target/cucumber.json", "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"),
   tags = Array("@wip")
 )
 class Runner_WIP
