@@ -11,7 +11,7 @@ object Configuration {
   val traderArrivalPort                = 9483
   val traderArrivalUri                 = "common-transit-convention-trader-arrival"
   val unloadingRemarkPort              = 9488
-  val unloadingArrivalUri              = "common-transit-convention-unloading-arrival"
+  val unloadingArrivalUri              = "manage-transit-movements-unloading-remarks"
   val manageTraderTransitMovementsPort = 9485
   val manageTraderTransitMovementsUri  = "manage-transit-movements"
   val authLoginPort                    = 9949
