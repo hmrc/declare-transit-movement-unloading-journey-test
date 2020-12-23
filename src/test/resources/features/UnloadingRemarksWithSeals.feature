@@ -55,8 +55,8 @@ Feature: Ability to submit unloading remarks with seals
   @a11y
   Scenario: 3 - Unloading Remarks with seals, adds new seals and changes the check seals section from CYA page
 
-    When I click the Add a new seal number link
-    And I enter Seal123xyz found on the new seal number page
+    When I click the Add a new official customs seal number link
+    And I enter Seal123xyz on the new seal number page
     Then I should be on the unloading summary page
     When I click on remove seal for item 4
     And I answer Yes on the confirm remove seal page
