@@ -34,7 +34,7 @@ Feature: Ability to submit unloading remarks with seals
     When I clicked the submit button
     Then I should be on the check your answers page
     When I click on change date goods unloaded
-    And I input date 15/04/2020 on the date goods unloaded page
+    When I input today's date on the date goods unloaded page
     Then I should be on the check your answers page
     When I click on change answers
     Then I should be on the unloading summary page
