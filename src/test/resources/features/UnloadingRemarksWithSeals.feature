@@ -26,7 +26,7 @@ Feature: Ability to submit unloading remarks with seals
     When I clicked the submit button
     Then I should be on the confirmation page
 
-    @wip
+
   Scenario: 2 - Unloading remarks with changes to summary answers
     
     When I click on change vehicle reference
