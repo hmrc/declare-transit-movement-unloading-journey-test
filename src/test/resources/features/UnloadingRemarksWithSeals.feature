@@ -26,6 +26,7 @@ Feature: Ability to submit unloading remarks with seals
     When I clicked the submit button
     Then I should be on the confirmation page
 
+    @wip
   Scenario: 2 - Unloading remarks with changes to summary answers
     
     When I click on change vehicle reference
@@ -36,8 +37,6 @@ Feature: Ability to submit unloading remarks with seals
     When I click on change date goods unloaded
     When I input today's date on the date goods unloaded page
     Then I should be on the check your answers page
-    When I click on change answers
-    Then I should be on the unloading summary page
     When I click on change gross mass
     And I enter 1500 on the change gross mass amount page
     Then I should be on the unloading summary page
