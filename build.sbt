@@ -12,12 +12,6 @@ resolvers ++= Seq(
   "typesafe-releases" at hmrcRepoHost + "/content/repositories/typesafe-releases"
 )
 
-resolvers += "Typesafe repository" at "https://repo.typesafe.com/typesafe/releases/"
-
-resolvers += "HMRC-open-artefacts-maven" at "https://open.artefacts.tax.service.gov.uk/maven2"
-
-resolvers += Resolver.url("HMRC-open-artefacts-ivy", url("https://open.artefacts.tax.service.gov.uk/ivy2"))(Resolver.ivyStylePatterns)
-
 val seleniumVersion = "3.141.59"
 val cucumberVersion = "2.0.1"
 
