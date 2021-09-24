@@ -28,5 +28,5 @@ Feature: Trader view and fix errors for Unloading Remarks rejections
   Scenario: 3 - Trader resubmits the Unloading Remarks to fix multiple errors
     When I authenticate on Unloading rejection page for Arrival Id 10
     Then I should be on the Unloading rejection page
-    When I click the create new unloading remarks link
+    When I click the send new unloading remarks with the right information link
     Then I should be on the Unloading guidance page
