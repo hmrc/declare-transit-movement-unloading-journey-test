@@ -1,22 +1,15 @@
 package ctc.pages
 
-import java.time.LocalDate
-
-import cucumber.api.DataTable
 import ctc.driver.Driver
-import ctc.models.FormInput
 import ctc.utils.Configuration
 import ctc.utils.ScreenShotUtility
 import ctc.utils.UrlHelperWithHyphens
-import org.openqa.selenium.support.ui.ExpectedCondition
-import org.openqa.selenium.support.ui.ExpectedConditions
-import org.openqa.selenium.support.ui.FluentWait
-import org.openqa.selenium.support.ui.WebDriverWait
 import org.openqa.selenium._
-import org.openqa.selenium.interactions.Actions
+import org.openqa.selenium.support.ui.ExpectedConditions
+import org.openqa.selenium.support.ui.WebDriverWait
 import org.scalatest._
 
-import scala.collection.JavaConverters._
+import java.time.LocalDate
 
 object Page extends Page
 
@@ -24,88 +17,57 @@ trait Page extends Matchers with ScreenShotUtility {
 
   implicit val webDriver: WebDriver = Driver.webDriver
 
-  def pageTitle = webDriver.getTitle
-
-  protected def waitFor(predicate: WebDriver => Boolean): Boolean =
+  private def waitFor(predicate: WebDriver => Boolean): Boolean =
     new WebDriverWait(webDriver, Configuration.settings.timeout).until {
-      new ExpectedCondition[Boolean] {
-        override def apply(wd: WebDriver) = predicate(wd)
-      }
+      (wd: WebDriver) =>
+        predicate(wd)
     }
 
-  def waitForElement(by: By) =
+  private def waitForElement(by: By): WebElement =
     new WebDriverWait(webDriver, Configuration.settings.timeout).until {
       ExpectedConditions.presenceOfElementLocated(by)
     }
 
-  def waitForPageToLoad(by: By) =
-    new FluentWait(webDriver).until {
-      ExpectedConditions.presenceOfElementLocated(by)
-    }
-
-  protected def bringIntoView(id: String, action: WebElement => Unit) = {
+  private def bringIntoView(id: String, action: WebElement => Unit): Unit = {
     val element                  = waitForElement(By.id(id))
     val jse2: JavascriptExecutor = webDriver.asInstanceOf[JavascriptExecutor]
     jse2.executeScript("arguments[0].scrollIntoView()", element)
     action(element)
   }
 
-  def clearCookies() = webDriver.manage().deleteAllCookies()
+  def clearCookies(): Unit = webDriver.manage().deleteAllCookies()
 
-  def click(by: By) = webDriver.findElement(by).click()
+  private def click(by: By): Unit = webDriver.findElement(by).click()
 
-  def clickById(id: String) = click(By.id(id))
+  def clickById(id: String): Unit = click(By.id(id))
 
-  def clickByLinkText(linkText: String) = click(By.linkText(linkText))
+  def clickByLinkText(linkText: String): Unit = click(By.linkText(linkText))
 
-  def clickByPartialLinkText(linkText: String) = click(By.partialLinkText(linkText))
+  private def clickByCssSelector(cssSelector: String): Unit = click(By.cssSelector(cssSelector))
 
-  def clickByCssSelector(cssSelector: String) = click(By.cssSelector(cssSelector))
-
-  def clickByTagName(tagName: String) = click(By.tagName("button"))
-
-  def clickSubmit() =
+  private def clickSubmit(): Unit =
     bringIntoView("submit", {
       e =>
         e.click()
     })
 
-  def findInputByValue(value: String): WebElement =
-    webDriver.findElement(By.cssSelector(s"""input[value="$value"]"""))
-
-  def fillInput(by: By, text: String) = {
+  private def fillInput(by: By, text: String): Unit = {
     val input = webDriver.findElement(by)
     input.clear()
     if (text != null && text.nonEmpty) input.sendKeys(text)
   }
 
-  def fillInputById(id: String, text: String) = fillInput(By.id(id), text)
+  private def fillInputById(id: String, text: String): Unit = fillInput(By.id(id), text)
 
-  def findByLinkText(text: String) = webDriver.findElement(By.linkText(text))
-
-  def urlShouldMatch(prettyUrl: String) = {
-
+  def urlShouldMatch(prettyUrl: String): Boolean = {
     val convertedUrl = UrlHelperWithHyphens.convertToUrlSlug(prettyUrl)
     waitFor(wd => wd.getCurrentUrl.toLowerCase.endsWith(convertedUrl.toLowerCase))
 
-    waitForElement(By.cssSelector("h1")).isDisplayed()
+    waitForElement(By.cssSelector("h1")).isDisplayed
   }
 
-  def toClear(id: String) = webDriver.findElement(By.id(id)).clear()
-
-  def goToManageHomePage(): Unit = {
-    val url = s"${Configuration.settings.manageBaseUrl}"
-    webDriver.navigate().to(url)
-    urlShouldMatch("manage-transit-movements")
-  }
-
-  def goToAuthPage() = {
-    val authUrl = s"${Configuration.settings.authLoginUrl}"
-    webDriver.navigate().to(authUrl)
-  }
-
-  def authenticate(arrivalId: String, rejectionJourney: Boolean = false) = {
-    goToAuthPage()
+  def authenticate(arrivalId: String, rejectionJourney: Boolean = false): Unit = {
+    webDriver.navigate().to(Configuration.settings.authLoginUrl)
     val url         = s"${Configuration.settings.applicationsBaseUrl}/$arrivalId"
     val redirectUrl = if (rejectionJourney) s"$url/unloading-rejection" else url
     fillInput(By.cssSelector("*[name='redirectionUrl']"), redirectUrl)
@@ -113,12 +75,6 @@ trait Page extends Matchers with ScreenShotUtility {
     fillInput(By.cssSelector("*[name='enrolment[1].taxIdentifier[0].name']"), "VATRegNoTURN")
     fillInput(By.cssSelector("*[name='enrolment[1].taxIdentifier[0].value']"), "123456789")
     clickByCssSelector("*[type='submit']")
-  }
-
-  def goToArrivalHomePage(): Unit = {
-    val url = s"${Configuration.settings.applicationsBaseUrl}/movement-reference-number"
-    webDriver.navigate().to(url)
-    urlShouldMatch("movement-reference-number")
   }
 
   def goToUnloadingRemarksHomePage(arrivalId: String): Unit = {
@@ -131,30 +87,13 @@ trait Page extends Matchers with ScreenShotUtility {
     urlShouldMatch(url)
   }
 
-  def submitValuePage(url: String, answer: String) = {
+  def submitValuePage(url: String, answer: String): Unit = {
     urlShouldMatch(url)
     fillInputById("value", answer)
     clickById("submit")
   }
 
-  def changeValuePage(url: String, answer: String) = {
-    urlShouldMatch(url)
-    toClear("value")
-    fillInputById("value", answer)
-    clickById("submit")
-  }
-
-  def submitSelectPage(url: String, answer: String) = {
-    urlShouldMatch(url)
-
-    webDriver.findElement(By.id("value")).sendKeys(answer)
-    webDriver.findElement(By.id("value__option--0")).click()
-
-    clickById("submit")
-  }
-
-  def submitYesNoPage(prettyUrl: String, answer: String, baseId: String = "value") = {
-
+  def submitYesNoPage(prettyUrl: String, answer: String, baseId: String = "value"): Unit = {
     urlShouldMatch(prettyUrl)
     answer match {
       case "Yes" => clickById(s"$baseId")
@@ -163,7 +102,7 @@ trait Page extends Matchers with ScreenShotUtility {
     clickSubmit()
   }
 
-  def submitDateValuePage(prettyUrl: String, day: String, month: String, year: String, baseId: String = "value") = {
+  def submitDateValuePage(prettyUrl: String, day: String, month: String, year: String, baseId: String = "value"): Unit = {
     urlShouldMatch(prettyUrl)
     fillInputById(s"$baseId", day)
     fillInputById(s"${baseId}_month", month)
@@ -171,51 +110,26 @@ trait Page extends Matchers with ScreenShotUtility {
     clickSubmit()
   }
 
-  def submitDateNowPage(prettyUrl: String, baseId: String = "value") = {
-    urlShouldMatch(prettyUrl)
-    fillInputById(s"$baseId", s"${LocalDate.now().getDayOfMonth}")
-    fillInputById(s"${baseId}_month", s"${LocalDate.now().getMonthValue}")
-    fillInputById(s"${baseId}_year", s"${LocalDate.now().getYear}")
-    clickSubmit()
+  def submitDateNowPage(prettyUrl: String, baseId: String = "value"): Unit = {
+    val now = LocalDate.now()
+    submitDateValuePage(
+      prettyUrl = prettyUrl,
+      day = s"${now.getDayOfMonth}",
+      month = s"${now.getMonthValue}",
+      year = s"${now.getYear}",
+      baseId = baseId
+    )
   }
 
-  def submitDataTablePage(prettyUrl: String, data: DataTable) = {
-    urlShouldMatch(prettyUrl)
-    val inputs = data.asList[FormInput](classOf[FormInput]).asScala
-    for (input <- inputs) fillInputById(input.question, input.answer)
-    clickSubmit()
-  }
-
-  def accessibilityCheck() = {
+  def accessibilityCheck(): Unit = {
     lazy val prop = System.getProperty("a11y")
     if (prop == "true") {
-      lazy val errors = webDriver.findElements(By.id("error-summary-title")).size() > 0
-      lazy val url    = webDriver.getCurrentUrl.contains("/change-")
-      if (errors == false && url == false) {
+      lazy val hasErrors   = webDriver.findElements(By.id("error-summary-title")).size() > 0
+      lazy val isChangeUrl = webDriver.getCurrentUrl.contains("/change-")
+      if (!hasErrors && !isChangeUrl) {
         clickSubmit()
       }
     }
   }
 
-  def selectValueAutoComplete(url: String, answer: String) = {
-    urlShouldMatch(url)
-    fillInputById("value", answer)
-    waitForElement(By.id("value"))
-    clickByCssSelector("li#value__option--0")
-    clickSubmit()
-
-  }
-
-  def changeValueAutoComplete(url: String, answer: String) = {
-    urlShouldMatch(url)
-    //This is required to clear any existing value in the autocomplete box
-    new Actions(webDriver).click(webDriver.findElement(By.className("autocomplete__wrapper"))).sendKeys(Keys.DELETE).perform()
-    val autoFill: WebElement               = webDriver.findElement(By.id("value__listbox"))
-    val availableOptions: List[WebElement] = autoFill.findElements(By.tagName("li")).asScala.toList
-    availableOptions.find(_.getText.contains(answer)) match {
-      case Some(element) => element.click()
-      case None          => throw new RuntimeException(s"$answer option not found in the auto-complete drop down in page:$url")
-    }
-    clickSubmit()
-  }
 }
