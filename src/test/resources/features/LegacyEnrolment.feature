@@ -1,4 +1,4 @@
-@LegacyEnrolment
+@LegacyEnrolment @wip
 Feature: Ability to enrol with the legacy NCTS enrolment method
 
   Background:
@@ -13,13 +13,13 @@ Feature: Ability to enrol with the legacy NCTS enrolment method
     Then I should be on the Unloading rejection page
 
   Scenario: Both enrolments available
-    Given I authenticate on Local reference number page with an enrolment as dual
+    Given I authenticate on Unloading rejection page with an enrolment as dual
     Then I should be on the Unloading rejection page
 
   Scenario: No enrolment available
-    Given I authenticate on Local reference number page with an enrolment as empty
-    Then I should be on the local reference number page
-    When I click the request access to NCTS link
+    Given I authenticate on Unloading rejection page with an enrolment as empty
+    Then I should be on the Unloading rejection page
+    When I click the Check EORI (opens in a new window or tab) link
 
 
 

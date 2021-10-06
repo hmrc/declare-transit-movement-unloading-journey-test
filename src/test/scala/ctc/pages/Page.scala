@@ -115,26 +115,25 @@ trait Page extends Matchers with ScreenShotUtility {
     clickByCssSelector("*[type='submit']")
   }
 
-  def authenticateEnrolment(enrolmentType: String): Unit = {
+  def authenticateEnrolment(enrolmentType: String, rejectionJourney: Boolean = false): Unit = {
     goToAuthPage()
-    val redirectUrl = s"${Configuration.settings.applicationsBaseUrl}/8"
-
+    val redirectUrl = s"${Configuration.settings.applicationsBaseUrl}/8/unloading-rejection"
     fillInput(By.cssSelector("*[name='redirectionUrl']"), redirectUrl)
 
     val enrolmentKey = enrolmentType match {
       case "legacy" =>
         fillInput(By.cssSelector("*[name='enrolment[1].name']"), "HMCE-NCTS-ORG")
         fillInput(By.cssSelector("*[name='enrolment[1].taxIdentifier[0].name']"), "VATRegNoTURN")
-        fillInput(By.cssSelector("*[name='enrolment[1].taxIdentifier[0].value']"), "OldEORINumber")
+        fillInput(By.cssSelector("*[name='enrolment[1].taxIdentifier[0].value']"), "123456789")
 
       case "dual" =>
         fillInput(By.cssSelector("*[name='enrolment[1].name']"), "HMCE-NCTS-ORG")
         fillInput(By.cssSelector("*[name='enrolment[1].taxIdentifier[0].name']"), "VATRegNoTURN")
-        fillInput(By.cssSelector("*[name='enrolment[1].taxIdentifier[0].value']"), "OldEORINumber")
+        fillInput(By.cssSelector("*[name='enrolment[1].taxIdentifier[0].value']"), "123456789")
 
         fillInput(By.cssSelector("*[name='enrolment[2].name']"), "HMRC-CTC-ORG")
         fillInput(By.cssSelector("*[name='enrolment[2].taxIdentifier[0].name']"), "EORINumber")
-        fillInput(By.cssSelector("*[name='enrolment[2].taxIdentifier[0].value']"), "NewEORINumber")
+        fillInput(By.cssSelector("*[name='enrolment[2].taxIdentifier[0].value']"), "123456789")
 
       case "empty" =>
     }
