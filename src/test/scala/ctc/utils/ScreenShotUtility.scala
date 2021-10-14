@@ -3,10 +3,9 @@ package ctc.utils
 import java.io.File
 import java.util.Calendar
 
-import cucumber.api.Scenario
-import cucumber.api.java.Before
+import io.cucumber.scala.Scenario
+import org.junit.Before
 import ctc.driver.Driver
-import org.openqa.selenium.JavascriptExecutor
 import org.openqa.selenium._
 import org.apache.commons.io.FileUtils
 import org.openqa.selenium.JavascriptExecutor
