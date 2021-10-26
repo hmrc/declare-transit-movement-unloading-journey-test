@@ -2,8 +2,8 @@ package ctc.steps
 
 import ctc.pages._
 import ctc.utils.ScreenShotUtility
-import cucumber.api.scala.EN
-import cucumber.api.scala.ScalaDsl
+import io.cucumber.scala.EN
+import io.cucumber.scala.ScalaDsl
 
 class CommonSteps extends ScalaDsl with EN with ScreenShotUtility {
 
@@ -61,7 +61,7 @@ class CommonSteps extends ScalaDsl with EN with ScreenShotUtility {
       Page.clickById(actualID)
   }
 
-  When("""(?:I )?click on (.+) for item (.+)""") {
+  When("""^(?:I )?click on (.+) for item (.+)""") {
     (action: String, index: Int) =>
       val updateIndex = index - 1
       val id          = s"${action.replace(" ", "-")}-$updateIndex"
