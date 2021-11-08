@@ -3,8 +3,8 @@ package ctc.suites
 import java.io.File
 
 import ctc.driver.Driver
-import cucumber.api.CucumberOptions
-import cucumber.api.junit.Cucumber
+import io.cucumber.junit.Cucumber
+import io.cucumber.junit.CucumberOptions
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.runner.RunWith
@@ -15,8 +15,8 @@ import uk.gov.hmrc.extentreport.Reporter
 @CucumberOptions(
   features = Array("src/test/resources/features"),
   glue = Array("ctc.steps"),
-  plugin = Array("pretty", "html:target/cucumber", "json:target/cucumber.json", "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"),
-  tags = Array("@wip")
+  plugin = Array("pretty", "html:target/cucumber.html", "json:target/cucumber.json"),
+  tags = "@wip"
 )
 class Runner_WIP
 

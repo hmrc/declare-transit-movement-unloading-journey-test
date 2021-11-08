@@ -19,7 +19,7 @@ resolvers += "HMRC-open-artefacts-maven" at "https://open.artefacts.tax.service.
 resolvers += Resolver.url("HMRC-open-artefacts-ivy", url("https://open.artefacts.tax.service.gov.uk/ivy2"))(Resolver.ivyStylePatterns)
 
 val seleniumVersion = "3.141.59"
-val cucumberVersion = "2.0.1"
+val cucumberVersion = "6.9.1"
 
 libraryDependencies ++= Seq(
   "org.seleniumhq.selenium"    % "selenium-java"                   % seleniumVersion,
@@ -30,13 +30,12 @@ libraryDependencies ++= Seq(
   "io.cucumber"                % "cucumber-picocontainer"          % cucumberVersion % "test",
   "io.cucumber"                % "cucumber-junit"                  % cucumberVersion % "test",
   "junit"                      % "junit"                           % "4.13" % "test",
-  "uk.gov.hmrc"                %% "play-language"                  % "4.3.0-play-27",
   "org.mongodb.scala"          %% "mongo-scala-driver"             % "4.0.4",
   "org.pegdown"                % "pegdown"                         % "1.6.0" % "test",
   "org.scalatest"              %% "scalatest"                      % "3.0.8",
   "ch.qos.logback"             % "logback-classic"                 % "1.2.3",
   "com.typesafe.scala-logging" %% "scala-logging"                  % "3.8.0",
-  "uk.gov.hmrc"                %% "webdriver-factory"              % "0.15.0",
+  "uk.gov.hmrc"                %% "webdriver-factory"              % "0.23.0",
   "uk.gov.hmrc"                %% "extent-report"                  % "0.8.0",
   "com.aventstack"             % "extentreports"                   % "4.0.9" % "provided",
   "com.aventstack"             % "extentreports-cucumber2-adapter" % "1.0.0" % "provided"
