@@ -49,6 +49,13 @@ class CommonSteps extends ScalaDsl with EN with ScreenShotUtility {
       Page.urlShouldMatch(prettyUrl)
   }
 
+//  When I verify the url contains customs-enrolment-services/ctc/subscribe
+
+  When("""^I verify the url contains (.+)""") {
+    prettyUrl: String =>
+      Page.urlShouldContain(prettyUrl)
+  }
+
   And("""^(?:I )?clicked the (.+) button$""") {
     submit: String =>
       Page.clickById(submit)

@@ -66,6 +66,14 @@ trait Page extends Matchers with ScreenShotUtility {
     waitForElement(By.cssSelector("h1")).isDisplayed
   }
 
+  def urlShouldContain(prettyUrl: String): Boolean = {
+    val convertedUrl = prettyUrl
+    waitFor(
+      wd => wd.getCurrentUrl.toLowerCase.contains(convertedUrl)
+    )
+
+  }
+
   def authenticate(arrivalId: String, rejectionJourney: Boolean = false): Unit = {
     webDriver.navigate().to(Configuration.settings.authLoginUrl)
     val url         = s"${Configuration.settings.applicationsBaseUrl}/$arrivalId"

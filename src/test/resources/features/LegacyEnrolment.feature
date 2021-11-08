@@ -18,5 +18,4 @@ Feature: Ability to enrol with the legacy NCTS enrolment method
 
   Scenario: No enrolment available
     Given I authenticate on Unloading rejection page with an enrolment as empty
-    Then I should be on the Unloading rejection page
-    When I click the Check EORI (opens in a new window or tab) link
+    When I verify the url contains customs-enrolment-services/ctc/subscribe
