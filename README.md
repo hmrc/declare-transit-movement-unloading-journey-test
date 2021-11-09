@@ -16,7 +16,7 @@ Tests can be ran in Chrome or Firefox using a GUI or headless browser, either lo
 
 Note - The unloading remarks tests require access to stubbed test data
 
-    sm -start CTC_TRADERS_ARRIVAL --appendArgs '{"DECLARE_TRANSIT_MOVEMENT_UNLOADING_FRONTEND":["-Dmicroservice.services.arrivals-backend.port=9481", "-Dmicroservice.services.arrivals-backend.uri=/common-transit-convention-trader-at-destination"], "MANAGE_TRANSIT_MOVEMENTS_FRONTEND":["-Dmicroservice.services.destination.port=9481", "-Dmicroservice.services.destination.startUrl=common-transit-convention-trader-at-destination"], "DECLARE_TRANSIT_MOVEMENT_ARRIVAL_FRONTEND":["-Dmicroservice.services.destination.port=9481","-Dmicroservice.services.destination.startUrl=common-transit-convention-trader-at-destination"]}' -f
+    sm -start CTC_TRADERS_ALL --appendArgs '{"DECLARE_TRANSIT_MOVEMENT_UNLOADING_FRONTEND":["-Dmicroservice.services.arrivals-backend.port=9481", "-Dmicroservice.services.arrivals-backend.uri=/common-transit-convention-trader-at-destination"], "MANAGE_TRANSIT_MOVEMENTS_FRONTEND":["-Dmicroservice.services.destination.port=9481", "-Dmicroservice.services.destination.startUrl=common-transit-convention-trader-at-destination"], "DECLARE_TRANSIT_MOVEMENT_ARRIVAL_FRONTEND":["-Dmicroservice.services.destination.port=9481","-Dmicroservice.services.destination.startUrl=common-transit-convention-trader-at-destination"]}' -f
 
 ### Test execution
 
@@ -39,7 +39,7 @@ We have configured a headless browser type by passing additional Chrome options 
 
    ### Start service manager
 
-    sm -start CTC_TRADERS_ARRIVAL -r
+    sm -start CTC_TRADERS_ALL -r
 
    ### Change to the docker/chrome directory
 
