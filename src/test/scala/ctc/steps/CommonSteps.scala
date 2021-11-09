@@ -21,6 +21,11 @@ class CommonSteps extends ScalaDsl with EN with ScreenShotUtility {
       Page.goToUnloadingRemarksRejectionPage(prettyUrl, arrivalId)
   }
 
+  Given("""^I authenticate on (.+) page with an enrolment as (.+)$""") {
+    (prettyUrl: String, enrolmentType: String) =>
+      Page.authenticateEnrolment(enrolmentType)
+  }
+
   And("""^(?:I )?enter (.+) on the (.+) page$""") {
     (answer: String, url: String) =>
       Page.accessibilityCheck()
@@ -42,6 +47,13 @@ class CommonSteps extends ScalaDsl with EN with ScreenShotUtility {
   Then("""^(?:I )?(?:should )?be on the (.+) page$""") {
     prettyUrl: String =>
       Page.urlShouldMatch(prettyUrl)
+  }
+
+//  When I verify the url contains customs-enrolment-services/ctc/subscribe
+
+  When("""^I verify the url contains (.+)""") {
+    prettyUrl: String =>
+      Page.urlShouldContain(prettyUrl)
   }
 
   And("""^(?:I )?clicked the (.+) button$""") {

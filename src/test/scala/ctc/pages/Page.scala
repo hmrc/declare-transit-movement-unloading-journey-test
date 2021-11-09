@@ -66,13 +66,21 @@ trait Page extends Matchers with ScreenShotUtility {
     waitForElement(By.cssSelector("h1")).isDisplayed
   }
 
+  def urlShouldContain(prettyUrl: String): Boolean = {
+    val convertedUrl = prettyUrl
+    waitFor(
+      wd => wd.getCurrentUrl.toLowerCase.contains(convertedUrl)
+    )
+
+  }
+
   def authenticate(arrivalId: String, rejectionJourney: Boolean = false): Unit = {
     webDriver.navigate().to(Configuration.settings.authLoginUrl)
     val url         = s"${Configuration.settings.applicationsBaseUrl}/$arrivalId"
     val redirectUrl = if (rejectionJourney) s"$url/unloading-rejection" else url
     fillInput(By.cssSelector("*[name='redirectionUrl']"), redirectUrl)
-    fillInput(By.cssSelector("*[name='enrolment[1].name']"), "HMCE-NCTS-ORG")
-    fillInput(By.cssSelector("*[name='enrolment[1].taxIdentifier[0].name']"), "VATRegNoTURN")
+    fillInput(By.cssSelector("*[name='enrolment[1].name']"), "HMRC-CTC-ORG")
+    fillInput(By.cssSelector("*[name='enrolment[1].taxIdentifier[0].name']"), "EORINumber")
     fillInput(By.cssSelector("*[name='enrolment[1].taxIdentifier[0].value']"), "123456789")
     clickByCssSelector("*[type='submit']")
   }
@@ -85,6 +93,32 @@ trait Page extends Matchers with ScreenShotUtility {
   def goToUnloadingRemarksRejectionPage(url: String, arrivalId: String): Unit = {
     authenticate(arrivalId, rejectionJourney = true)
     urlShouldMatch(url)
+  }
+
+  def authenticateEnrolment(enrolmentType: String, rejectionJourney: Boolean = false): Unit = {
+    webDriver.navigate().to(Configuration.settings.authLoginUrl)
+    val redirectUrl = s"${Configuration.settings.applicationsBaseUrl}/8/unloading-rejection"
+    fillInput(By.cssSelector("*[name='redirectionUrl']"), redirectUrl)
+
+    val enrolmentKey: Unit = enrolmentType match {
+      case "legacy" =>
+        fillInput(By.cssSelector("*[name='enrolment[1].name']"), "HMCE-NCTS-ORG")
+        fillInput(By.cssSelector("*[name='enrolment[1].taxIdentifier[0].name']"), "VATRegNoTURN")
+        fillInput(By.cssSelector("*[name='enrolment[1].taxIdentifier[0].value']"), "123456789")
+
+      case "dual" =>
+        fillInput(By.cssSelector("*[name='enrolment[1].name']"), "HMCE-NCTS-ORG")
+        fillInput(By.cssSelector("*[name='enrolment[1].taxIdentifier[0].name']"), "VATRegNoTURN")
+        fillInput(By.cssSelector("*[name='enrolment[1].taxIdentifier[0].value']"), "123456789")
+
+        fillInput(By.cssSelector("*[name='enrolment[2].name']"), "HMRC-CTC-ORG")
+        fillInput(By.cssSelector("*[name='enrolment[2].taxIdentifier[0].name']"), "EORINumber")
+        fillInput(By.cssSelector("*[name='enrolment[2].taxIdentifier[0].value']"), "123456789")
+
+      case "empty" =>
+    }
+
+    clickByCssSelector("*[type='submit']")
   }
 
   def submitValuePage(url: String, answer: String): Unit = {
