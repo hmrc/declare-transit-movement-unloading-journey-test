@@ -1,0 +1,12 @@
+{
+  "add": [
+    {
+      "contextId": 1,
+      "reason": "Absence of Anti-CSRF Tokens in auth-login-stub",
+      "url": "http://localhost:9949/auth-login-stub/gg-sign-in",
+      "ruleId": 10202,
+      "urlIsRegex": "false",
+      "newLevel": 0
+    }
+  ]
+}
