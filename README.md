@@ -12,11 +12,16 @@ It is built using:
 ## How to run the journey tests
 Tests can be ran in Chrome or Firefox using a GUI or headless browser, either locally or in a docker container (described later).
 
+### Journeys Covered
+
+     Legacy enrolments
+     Unloading remarks with & without seals
+
 ### Start service manager
 
 Note - The unloading remarks tests require access to stubbed test data
 
-    sm -start CTC_TRADERS_ARRIVAL --appendArgs '{"DECLARE_TRANSIT_MOVEMENT_UNLOADING_FRONTEND":["-Dmicroservice.services.arrivals-backend.port=9481", "-Dmicroservice.services.arrivals-backend.uri=/common-transit-convention-trader-at-destination"], "MANAGE_TRANSIT_MOVEMENTS_FRONTEND":["-Dmicroservice.services.destination.port=9481", "-Dmicroservice.services.destination.startUrl=common-transit-convention-trader-at-destination"], "DECLARE_TRANSIT_MOVEMENT_ARRIVAL_FRONTEND":["-Dmicroservice.services.destination.port=9481","-Dmicroservice.services.destination.startUrl=common-transit-convention-trader-at-destination"]}' -f
+    Run sm --start CTC_TRADERS_ALL_ACCEPTANCE -r
 
 ### Test execution
 
@@ -27,6 +32,57 @@ Tests can be ran in Chrome or Firefox using a GUI or headless browser, either lo
 
 ### Driver/Browser Config
 All configuration of the browsers types we test with is handled by a dependency on the [HMRC Webdriver Factory library](https://github.com/hmrc/webdriver-factory)
+
+## Security Tests
+Security tests are dependant on [HMRC Zap Automation library](https://github.com/hmrc/zap-automation) and configured to run using Zap 2.8.0.
+ZAP tests are configured to scan the request/response of the full suite of journey tests.
+
+### Test execution
+
+#### Jenkins
+    https://build.tax.service.gov.uk/job/Common%20Transit%20Convention%20Traders/job/declare-transit-movement-unloading-zap-tests/
+    
+#### Locally
+    ./zap.sh -daemon -config api.disablekey=true -port 11000 # Start ZAP in Daemon mode
+    ./run_zap.sh
+
+## Accessibility Tests
+To support accessibility tests we can run the tests with an additional parameter which will force each page into a failure state, allowing us to capture the html of the error messages.
+
+   ### Test execution
+
+   #### Jenkins
+    https://build.tax.service.gov.uk/job/Common%20Transit%20Convention%20Traders/job/declare-transit-movement-unloading-a11y-tests/
+   
+   #### Locally
+    Accessibility tests cannot be run locally
+
+ This passes the `-Da11y=true` parameter to the jvm, which is read by the `accessibilityCheck` method.  We use this method on each step definition that submits a page input, except on "change" pages.
+
+   ### Config
+   * Extent: ~/src/test/resources/extent-config.xml
+   * Suites: ~/src/test/scala/suites/Runner.scala & Runner_WIP.scala
+   * Before: Setup test reports directory
+   * After:  Write report using junit source
+   * Frequency - Report written on suite execution
+   
+   ### Output
+   Reports are written to ~/target/test-reports/html-report/index.html
+
+## Data Cleanup
+Cleanup script to drop the 'user-answers' mongo collection.
+
+`./drop_unloading_frontend_data.sh`
+
+## Screenshots
+Screenshot utility allowing screenshots to be taken on demand. This is available to use but not currently being called in any common steps.
+
+### To use
+Add `tryTakeScreenShot()` method to steps or page object where required
+
+Add jvm option `-Dscreenshots=true` to `~/.run` scripts to capture screenshot
+
+Screenshots are output to `~/target/screenshots` as a .png image
 
 We have configured a headless browser type by passing additional Chrome options in the Driver class and access this using the `-Dbrowsertype=headless` jvm option in the `~/run_headless.sh` script.
 
@@ -39,7 +95,7 @@ We have configured a headless browser type by passing additional Chrome options 
 
    ### Start service manager
 
-    sm -start CTC_TRADERS_ARRIVAL -r
+    sm --start CTC_TRADERS_ALL -r
 
    ### Change to the docker/chrome directory
 
@@ -85,55 +141,3 @@ We have configured a headless browser type by passing additional Chrome options 
     docker stop $(docker ps -a -q)              # Stops all running containers
     docker exec -it <container id> /bin/bash    # Bash access to container
 
-## Security Tests
-Security tests are dependant on [HMRC Zap Automation library](https://github.com/hmrc/zap-automation) and configured to run using Zap 2.8.0.
-ZAP tests are configured to scan the request/response of the full suite of journey tests.
-
-### Test execution
-
-#### Jenkins
-   https://build.tax.service.gov.uk/job/Common%20Transit%20Convention%20Traders/job/declare-transit-movement-unloading-journey-test/
-
-#### Locally
-    ./zap.sh -daemon -config api.disablekey=true -port 11000 # Start ZAP in Daemon mode
-    ./run_zap.sh
-
-## Accessibility Tests
-To support accessibility tests we can run the tests with an additional parameter which will force each page into a failure state, allowing us to capture the html of the error messages.
-
-   ### Test execution
-
-   #### Jenkins
-   https://build.tax.service.gov.uk/job/Common%20Transit%20Convention%20Traders/job/declare-transit-movement-unloading-a11y-tests/
-
-   #### Locally
-    ./run_a11y.sh
-
- This passes the `-Da11y=true` parameter to the jvm, which is read by the `accessibilityCheck` method.  We use this method on each step definition that submits a page input, except on "change" pages.
-
-## Extent Reports
-Additional reporting, using the library `extentreports`, in the journey test gives a clearer insight into test status, including screenshots of the point of test failure.
-
-   ### Config
-   * Extent: ~/src/test/resources/extent-config.xml
-   * Suites: ~/src/test/scala/suites/Runner.scala & Runner_WIP.scala
-   * Before: Setup test reports directory
-   * After:  Write report using junit source
-   * Frequency - Report written on suite execution
-   ### Output
-   Reports are written to ~/target/test-reports/html-report/index.html
-
-## Data Cleanup
-Cleanup script to drop the 'user-answers' mongo collection.
-
-`~/.drop_unloading_frontend_data.sh`
-
-## Screenshots
-Screenshot utility allowing screenshots to be taken on demand. This is available to use but not currently being called in any common steps.
-
-### To use
-Add `tryTakeScreenShot()` method to steps or page object where required
-
-Add jvm option `-Dscreenshots=true` to `~/.run` scripts to capture screenshot
-
-Screenshots are output to `~/target/screenshots` as a .png image
