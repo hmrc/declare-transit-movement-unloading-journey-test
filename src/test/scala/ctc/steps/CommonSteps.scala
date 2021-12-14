@@ -7,6 +7,11 @@ import io.cucumber.scala.ScalaDsl
 
 class CommonSteps extends ScalaDsl with EN with ScreenShotUtility {
 
+  And("""^(?:I )?pause execution for (.+) milliseconds$""") {
+    delay: Int =>
+      Thread.sleep(delay)
+  }
+
   Given("""^I clear my cookies""") {
     Page.clearCookies()
   }
