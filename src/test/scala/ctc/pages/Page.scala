@@ -28,16 +28,16 @@ trait Page extends Matchers with ScreenShotUtility {
       ExpectedConditions.presenceOfElementLocated(by)
     }
 
-  private def bringIntoView(id: String, action: WebElement => Unit): Unit = {
-    val element                  = waitForElement(By.id(id))
-    val jse2: JavascriptExecutor = webDriver.asInstanceOf[JavascriptExecutor]
-    jse2.executeScript("arguments[0].scrollIntoView()", element)
+  private def bringIntoView(by: By, action: WebElement => Unit): Unit = {
+    val element                 = waitForElement(by)
+    val jse: JavascriptExecutor = webDriver.asInstanceOf[JavascriptExecutor]
+    jse.executeScript("arguments[0].scrollIntoView()", element)
     action(element)
   }
 
   def clearCookies(): Unit = webDriver.manage().deleteAllCookies()
 
-  private def click(by: By): Unit = webDriver.findElement(by).click()
+  private def click(by: By): Unit = bringIntoView(by, _.click)
 
   def clickById(id: String): Unit = click(By.id(id))
 
@@ -45,11 +45,7 @@ trait Page extends Matchers with ScreenShotUtility {
 
   private def clickByCssSelector(cssSelector: String): Unit = click(By.cssSelector(cssSelector))
 
-  private def clickSubmit(): Unit =
-    bringIntoView("submit", {
-      e =>
-        e.click()
-    })
+  private def clickSubmit(): Unit = clickById("submit")
 
   private def fillInput(by: By, text: String): Unit = {
     val input = webDriver.findElement(by)
@@ -61,18 +57,12 @@ trait Page extends Matchers with ScreenShotUtility {
 
   def urlShouldMatch(prettyUrl: String): Boolean = {
     val convertedUrl = UrlHelperWithHyphens.convertToUrlSlug(prettyUrl)
-    waitFor(wd => wd.getCurrentUrl.toLowerCase.endsWith(convertedUrl.toLowerCase))
-
+    waitFor(_.getCurrentUrl.toLowerCase.endsWith(convertedUrl.toLowerCase))
     waitForElement(By.cssSelector("h1")).isDisplayed
   }
 
-  def urlShouldContain(prettyUrl: String): Boolean = {
-    val convertedUrl = prettyUrl
-    waitFor(
-      wd => wd.getCurrentUrl.toLowerCase.contains(convertedUrl)
-    )
-
-  }
+  def urlShouldContain(prettyUrl: String): Boolean =
+    waitFor(_.getCurrentUrl.toLowerCase.contains(prettyUrl))
 
   def authenticate(arrivalId: String, rejectionJourney: Boolean = false): Unit = {
     webDriver.navigate().to(Configuration.settings.authLoginUrl)
@@ -100,7 +90,7 @@ trait Page extends Matchers with ScreenShotUtility {
     val redirectUrl = s"${Configuration.settings.applicationsBaseUrl}/8/unloading-rejection"
     fillInput(By.cssSelector("*[name='redirectionUrl']"), redirectUrl)
 
-    val enrolmentKey: Unit = enrolmentType match {
+    enrolmentType match {
       case "legacy" =>
         fillInput(By.cssSelector("*[name='enrolment[1].name']"), "HMCE-NCTS-ORG")
         fillInput(By.cssSelector("*[name='enrolment[1].taxIdentifier[0].name']"), "VATRegNoTURN")
@@ -116,6 +106,7 @@ trait Page extends Matchers with ScreenShotUtility {
         fillInput(By.cssSelector("*[name='enrolment[2].taxIdentifier[0].value']"), "123456789")
 
       case "empty" =>
+        ()
     }
 
     clickByCssSelector("*[type='submit']")
@@ -124,7 +115,7 @@ trait Page extends Matchers with ScreenShotUtility {
   def submitValuePage(url: String, answer: String): Unit = {
     urlShouldMatch(url)
     fillInputById("value", answer)
-    clickById("submit")
+    clickSubmit()
   }
 
   def submitYesNoPage(prettyUrl: String, answer: String, baseId: String = "value"): Unit = {
@@ -155,15 +146,13 @@ trait Page extends Matchers with ScreenShotUtility {
     )
   }
 
-  def accessibilityCheck(): Unit = {
-    lazy val prop = System.getProperty("a11y")
-    if (prop == "true") {
+  def accessibilityCheck(): Unit =
+    if (System.getProperty("a11y") == "true") {
       lazy val hasErrors   = webDriver.findElements(By.id("error-summary-title")).size() > 0
       lazy val isChangeUrl = webDriver.getCurrentUrl.contains("/change-")
       if (!hasErrors && !isChangeUrl) {
         clickSubmit()
       }
     }
-  }
 
 }
