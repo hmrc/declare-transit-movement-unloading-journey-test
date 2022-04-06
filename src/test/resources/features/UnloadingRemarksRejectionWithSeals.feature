@@ -1,4 +1,4 @@
-@unloading_remarks
+@unloading_remarks @a11y
 
 Feature: Trader view and fix errors for Unloading Remarks rejections
 
@@ -10,6 +10,7 @@ Feature: Trader view and fix errors for Unloading Remarks rejections
     Then I should be on the Unloading rejection page
     When I click on change vehicle registration rejection
     Then I should be on the vehicle name registration rejection page
+    And I pause execution for 1000000 milliseconds
     And I enter test data on the vehicle name registration rejection page
     Then I should be on the rejection check your answers page
     And I clicked the submit button
