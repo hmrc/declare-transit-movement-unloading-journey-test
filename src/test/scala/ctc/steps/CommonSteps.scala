@@ -33,6 +33,7 @@ class CommonSteps extends ScalaDsl with EN with ScreenShotUtility {
 
   And("""^(?:I )?enter (.+) on the (.+) page$""") {
     (answer: String, url: String) =>
+      Page.clear()
       Page.accessibilityCheck()
       Page.submitValuePage(url, answer)
   }
