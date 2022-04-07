@@ -1,4 +1,4 @@
-@unloading_remarks @a11y
+@unloading_remarks
 
 Feature: Trader view and fix errors for Unloading Remarks rejections
 

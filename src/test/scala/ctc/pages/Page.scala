@@ -47,6 +47,8 @@ trait Page extends Matchers with ScreenShotUtility {
 
   private def clickSubmit(): Unit = clickById("submit")
 
+  private def clearInputById(id: String): Unit = bringIntoView(By.id(id), _.clear())
+
   private def fillInput(by: By, text: String): Unit = {
     val input = webDriver.findElement(by)
     input.clear()
@@ -155,4 +157,6 @@ trait Page extends Matchers with ScreenShotUtility {
       }
     }
 
+  def clear(): Unit =
+    clearInputById("value")
 }

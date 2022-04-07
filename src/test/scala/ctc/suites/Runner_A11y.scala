@@ -16,7 +16,7 @@ import uk.gov.hmrc.extentreport.Reporter
   features = Array("src/test/resources/features"),
   glue = Array("ctc.steps"),
   plugin = Array("pretty", "html:target/cucumber.html", "json:target/cucumber.json"),
-  tags = "@a11y"
+  tags = "@unloading_remarks or @legacyenrolment"
 )
 class Runner_A11y
 
