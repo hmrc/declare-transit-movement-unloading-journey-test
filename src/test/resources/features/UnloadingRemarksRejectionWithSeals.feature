@@ -1,6 +1,6 @@
 @unloading_remarks
 
-Feature: Trader view and fix errors for Unloading Remarks rejections
+Feature: Ability to fix errors for Unloading Remarks rejections
 
   Background: Trader clicks to view arrival notifications
     Given I clear my cookies

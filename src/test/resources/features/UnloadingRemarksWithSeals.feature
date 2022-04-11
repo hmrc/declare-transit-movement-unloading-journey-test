@@ -13,22 +13,15 @@ Feature: Ability to submit unloading remarks with seals
     When I answer No on the are any seals broken page
     Then I should be on the unloading summary page
 
-  Scenario: 1 - Unloading remarks with seals, no changes to seals but have other changes to report
-
+  Scenario: 1 - Unloading remarks with changes to summary answers & add/remove comment & adds new seals and changes the check seals section from CYA page
+#   Add comment
     When I click the Add comment link
     And I enter stowaways found on the changes to report page
     Then I should be on the unloading summary page
     When I clicked the remove-comment button
     When I answer No on the confirm remove comments page
     Then I should be on the unloading summary page
-    When I clicked the submit button
-    Then I should be on the check your answers page
-    When I clicked the submit button
-    Then I should be on the confirmation page
-
-
-  Scenario: 2 - Unloading remarks with changes to summary answers
-    
+#   Change answers
     When I click on change vehicle reference
     And I enter NE20 CTC on the change vehicle name registration reference page
     Then I should be on the unloading summary page
@@ -46,14 +39,7 @@ Feature: Ability to submit unloading remarks with seals
     When I click on change total number of packages
     And I enter 150 on the change total number of packages page
     Then I should be on the unloading summary page
-    When I clicked the submit button
-    Then I should be on the check your answers page
-    When I clicked the submit button
-    Then I should be on the confirmation page
-
-  @a11y
-  Scenario: 3 - Unloading Remarks with seals, adds new seals and changes the check seals section from CYA page
-
+#   Add new seals
     When I click the Add a new official customs seal number link
     And I enter Seal123xyz on the new seal number page
     Then I should be on the unloading summary page
@@ -62,6 +48,7 @@ Feature: Ability to submit unloading remarks with seals
     Then I should be on the unloading summary page
     When I clicked the submit button
     Then I should be on the check your answers page
+#   Change seals
     When I click on change can seals be read
     And I answer No on the change can seals be read page
     Then I should be on the check your answers page
