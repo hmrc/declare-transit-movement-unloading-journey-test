@@ -7,6 +7,14 @@
       "ruleId": 10202,
       "urlIsRegex": "false",
       "newLevel": 0
+    },
+    {
+      "reason": "PII Disclosure - False positive",
+      "contextId": 1,
+      "url": "http:\\/\\/localhost:.*\\/manage-transit-movements\\/.*",
+      "ruleId": 10062,
+      "urlIsRegex": "true",
+      "newLevel": 0
     }
   ]
 }
