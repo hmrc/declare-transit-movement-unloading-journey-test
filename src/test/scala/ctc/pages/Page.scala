@@ -1,30 +1,43 @@
+/*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package ctc.pages
 
 import ctc.driver.Driver
-import ctc.utils.Configuration
-import ctc.utils.ScreenShotUtility
-import ctc.utils.UrlHelperWithHyphens
+import ctc.utils.{Configuration, UrlHelperWithHyphens}
 import org.openqa.selenium._
-import org.openqa.selenium.support.ui.ExpectedConditions
-import org.openqa.selenium.support.ui.WebDriverWait
-import org.scalatest._
+import org.openqa.selenium.support.ui.{ExpectedConditions, WebDriverWait}
 
 import java.time.LocalDate
 
 object Page extends Page
 
-trait Page extends Matchers with ScreenShotUtility {
+trait Page {
+
+  private val config: Configuration = Configuration()
 
   implicit val webDriver: WebDriver = Driver.webDriver
 
   private def waitFor(predicate: WebDriver => Boolean): Boolean =
-    new WebDriverWait(webDriver, Configuration.settings.timeout).until {
-      (wd: WebDriver) =>
-        predicate(wd)
+    new WebDriverWait(webDriver, config.duration).until { (wd: WebDriver) =>
+      predicate(wd)
     }
 
   private def waitForElement(by: By): WebElement =
-    new WebDriverWait(webDriver, Configuration.settings.timeout).until {
+    new WebDriverWait(webDriver, config.duration).until {
       ExpectedConditions.presenceOfElementLocated(by)
     }
 
@@ -67,13 +80,11 @@ trait Page extends Matchers with ScreenShotUtility {
     waitFor(_.getCurrentUrl.toLowerCase.contains(prettyUrl))
 
   def authenticate(arrivalId: String, rejectionJourney: Boolean = false): Unit = {
-    webDriver.navigate().to(Configuration.settings.authLoginUrl)
-    val url         = s"${Configuration.settings.applicationsBaseUrl}/$arrivalId"
+    webDriver.navigate().to(config.authLoginUrl)
+    val url         = s"${config.applicationsBaseUrl}/$arrivalId"
     val redirectUrl = if (rejectionJourney) s"$url/unloading-rejection" else url
     fillInput(By.cssSelector("*[name='redirectionUrl']"), redirectUrl)
-    fillInput(By.cssSelector("*[name='enrolment[1].name']"), "HMRC-CTC-ORG")
-    fillInput(By.cssSelector("*[name='enrolment[1].taxIdentifier[0].name']"), "EORINumber")
-    fillInput(By.cssSelector("*[name='enrolment[1].taxIdentifier[0].value']"), "123456789")
+    enterEnrolment(0, "HMRC-CTC-ORG", "EORINumber", "123456789")
     clickByCssSelector("*[type='submit']")
   }
 
@@ -88,30 +99,27 @@ trait Page extends Matchers with ScreenShotUtility {
   }
 
   def authenticateEnrolment(enrolmentType: String, rejectionJourney: Boolean = false): Unit = {
-    webDriver.navigate().to(Configuration.settings.authLoginUrl)
-    val redirectUrl = s"${Configuration.settings.applicationsBaseUrl}/8/unloading-rejection"
+    webDriver.navigate().to(config.authLoginUrl)
+    val redirectUrl = s"${config.applicationsBaseUrl}/8/unloading-rejection"
     fillInput(By.cssSelector("*[name='redirectionUrl']"), redirectUrl)
 
     enrolmentType match {
       case "legacy" =>
-        fillInput(By.cssSelector("*[name='enrolment[1].name']"), "HMCE-NCTS-ORG")
-        fillInput(By.cssSelector("*[name='enrolment[1].taxIdentifier[0].name']"), "VATRegNoTURN")
-        fillInput(By.cssSelector("*[name='enrolment[1].taxIdentifier[0].value']"), "123456789")
-
-      case "dual" =>
-        fillInput(By.cssSelector("*[name='enrolment[1].name']"), "HMCE-NCTS-ORG")
-        fillInput(By.cssSelector("*[name='enrolment[1].taxIdentifier[0].name']"), "VATRegNoTURN")
-        fillInput(By.cssSelector("*[name='enrolment[1].taxIdentifier[0].value']"), "123456789")
-
-        fillInput(By.cssSelector("*[name='enrolment[2].name']"), "HMRC-CTC-ORG")
-        fillInput(By.cssSelector("*[name='enrolment[2].taxIdentifier[0].name']"), "EORINumber")
-        fillInput(By.cssSelector("*[name='enrolment[2].taxIdentifier[0].value']"), "123456789")
-
-      case "empty" =>
+        enterEnrolment(0, "HMCE-NCTS-ORG", "VATRegNoTURN", "123456789")
+      case "dual"   =>
+        enterEnrolment(0, "HMCE-NCTS-ORG", "VATRegNoTURN", "123456789")
+        enterEnrolment(1, "HMRC-CTC-ORG", "EORINumber", "123456789")
+      case "empty"  =>
         ()
     }
 
     clickByCssSelector("*[type='submit']")
+  }
+
+  private def enterEnrolment(index: Int, enrolment: String, identifierName: String, identifierValue: String): Unit = {
+    fillInput(By.cssSelector(s"*[name='enrolment[$index].name']"), enrolment)
+    fillInput(By.cssSelector(s"*[name='enrolment[$index].taxIdentifier[0].name']"), identifierName)
+    fillInput(By.cssSelector(s"*[name='enrolment[$index].taxIdentifier[0].value']"), identifierValue)
   }
 
   def submitValuePage(url: String, answer: String): Unit = {
@@ -129,7 +137,13 @@ trait Page extends Matchers with ScreenShotUtility {
     clickSubmit()
   }
 
-  def submitDateValuePage(prettyUrl: String, day: String, month: String, year: String, baseId: String = "value"): Unit = {
+  def submitDateValuePage(
+    prettyUrl: String,
+    day: String,
+    month: String,
+    year: String,
+    baseId: String = "value"
+  ): Unit = {
     urlShouldMatch(prettyUrl)
     fillInputById(s"$baseId", day)
     fillInputById(s"${baseId}_month", month)

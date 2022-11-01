@@ -1,15 +1,23 @@
+/*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package ctc.suites
 
-import java.io.File
-
-import ctc.driver.Driver
-import io.cucumber.junit.Cucumber
-import io.cucumber.junit.CucumberOptions
-import org.junit.AfterClass
-import org.junit.BeforeClass
+import io.cucumber.junit.{Cucumber, CucumberOptions}
 import org.junit.runner.RunWith
-import uk.gov.hmrc.extentreport.ExtentProperties
-import uk.gov.hmrc.extentreport.Reporter
 
 @RunWith(classOf[Cucumber])
 @CucumberOptions(
@@ -19,19 +27,3 @@ import uk.gov.hmrc.extentreport.Reporter
   tags = "@unloading_remarks or @legacyenrolment"
 )
 class Runner
-
-object Runner extends Runner {
-
-  @BeforeClass
-  def setup(): Unit = {
-    val dirName          = "target/test-reports/html-report"
-    val extentProperties = ExtentProperties.INSTANCE
-    val dir              = new File(dirName)
-    val successful       = dir.mkdir()
-    ExtentProperties.create(Driver.webDriver, dirName + "/index.html")
-  }
-
-  @AfterClass
-  def writeExtentReport(): Unit =
-    Reporter.loadXMLConfig("src/test/resources/extent-config.xml")
-}
