@@ -1,3 +1,19 @@
+/*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package ctc.utils
 
 trait UrlHelper {
@@ -13,15 +29,16 @@ object UrlHelperWithHyphens extends UrlHelper {
   override def convertToUrlSlug(text: String, preserveCase: Boolean = false): String = {
     val url = text.replace(" ", "-").trim
 
-    preserveCase match {
-      case true => url
-      case _    => url.toLowerCase
+    if (preserveCase) {
+      url
+    } else {
+      url.toLowerCase
     }
   }
 
   override def getFullUrl(slug: String, preserveCase: Boolean = false): String = {
     val convertedSlug = convertToUrlSlug(slug, preserveCase)
-    s"${Configuration.settings.applicationsBaseUrl}/$convertedSlug"
+    s"${Configuration().applicationsBaseUrl}/$convertedSlug"
   }
 
 }
