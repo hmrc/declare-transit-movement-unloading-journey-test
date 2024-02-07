@@ -16,7 +16,7 @@
 
 package ctc.pages
 
-import ctc.driver.Driver
+import ctc.driver.BrowserDriver
 import ctc.utils.{Configuration, UrlHelperWithHyphens}
 import org.openqa.selenium._
 import org.openqa.selenium.support.ui.{ExpectedConditions, WebDriverWait}
@@ -25,30 +25,28 @@ import java.time.LocalDate
 
 object Page extends Page
 
-trait Page {
+trait Page extends BrowserDriver {
 
   private val config: Configuration = Configuration()
 
-  implicit val webDriver: WebDriver = Driver.webDriver
-
   private def waitFor(predicate: WebDriver => Boolean): Boolean =
-    new WebDriverWait(webDriver, config.duration).until { (wd: WebDriver) =>
+    new WebDriverWait(driver, config.duration).until { (wd: WebDriver) =>
       predicate(wd)
     }
 
   private def waitForElement(by: By): WebElement =
-    new WebDriverWait(webDriver, config.duration).until {
+    new WebDriverWait(driver, config.duration).until {
       ExpectedConditions.presenceOfElementLocated(by)
     }
 
   private def bringIntoView(by: By, action: WebElement => Unit): Unit = {
     val element                 = waitForElement(by)
-    val jse: JavascriptExecutor = webDriver.asInstanceOf[JavascriptExecutor]
+    val jse: JavascriptExecutor = driver.asInstanceOf[JavascriptExecutor]
     jse.executeScript("arguments[0].scrollIntoView()", element)
     action(element)
   }
 
-  def clearCookies(): Unit = webDriver.manage().deleteAllCookies()
+  def clearCookies(): Unit = driver.manage().deleteAllCookies()
 
   private def click(by: By): Unit = bringIntoView(by, _.click)
 
@@ -63,7 +61,7 @@ trait Page {
   private def clearInputById(id: String): Unit = bringIntoView(By.id(id), _.clear())
 
   private def fillInput(by: By, text: String): Unit = {
-    val input = webDriver.findElement(by)
+    val input = driver.findElement(by)
     input.clear()
     if (text != null && text.nonEmpty) input.sendKeys(text)
   }
@@ -80,7 +78,7 @@ trait Page {
     waitFor(_.getCurrentUrl.toLowerCase.contains(prettyUrl))
 
   def authenticate(arrivalId: String, rejectionJourney: Boolean = false): Unit = {
-    webDriver.navigate().to(config.authLoginUrl)
+    driver.navigate().to(config.authLoginUrl)
     val url         = s"${config.applicationsBaseUrl}/$arrivalId"
     val redirectUrl = if (rejectionJourney) s"$url/unloading-rejection" else url
     fillInput(By.cssSelector("*[name='redirectionUrl']"), redirectUrl)
@@ -99,7 +97,7 @@ trait Page {
   }
 
   def authenticateEnrolment(enrolmentType: String, rejectionJourney: Boolean = false): Unit = {
-    webDriver.navigate().to(config.authLoginUrl)
+    driver.navigate().to(config.authLoginUrl)
     val redirectUrl = s"${config.applicationsBaseUrl}/8/unloading-rejection"
     fillInput(By.cssSelector("*[name='redirectionUrl']"), redirectUrl)
 
@@ -164,8 +162,8 @@ trait Page {
 
   def accessibilityCheck(): Unit =
     if (System.getProperty("a11y") == "true") {
-      lazy val hasErrors   = webDriver.findElements(By.id("error-summary-title")).size() > 0
-      lazy val isChangeUrl = webDriver.getCurrentUrl.contains("/change-")
+      lazy val hasErrors   = driver.findElements(By.id("error-summary-title")).size() > 0
+      lazy val isChangeUrl = driver.getCurrentUrl.contains("/change-")
       if (!hasErrors && !isChangeUrl) {
         clickSubmit()
       }

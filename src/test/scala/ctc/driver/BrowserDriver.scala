@@ -16,25 +16,10 @@
 
 package ctc.driver
 
-import org.openqa.selenium.WebDriver
-import org.openqa.selenium.chrome.ChromeOptions
-import uk.gov.hmrc.webdriver.SingletonDriver
+import org.openqa.selenium.remote.RemoteWebDriver
+import uk.gov.hmrc.selenium.webdriver.Driver
 
-import scala.util.Try
+trait BrowserDriver {
 
-object Driver extends Driver
-
-class Driver {
-
-  val options = new ChromeOptions()
-  options.setHeadless(true)
-
-  val webDriver: WebDriver = sys.props.get("browsermode") match {
-    case Some("headless") => SingletonDriver.getInstance(Some(options))
-    case _                => SingletonDriver.getInstance()
-  }
-
-  sys addShutdownHook {
-    Try(SingletonDriver.closeInstance())
-  }
+  implicit lazy val driver: RemoteWebDriver = Driver.instance
 }
