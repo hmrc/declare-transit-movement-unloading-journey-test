@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-sbt -Dbrowser=remote-chrome -Denvironment=local 'testOnly ctc.suites.Runner'
+sbt -Dbrowser=chrome -Denvironment=local 'testOnly ctc.suites.Runner' testReport

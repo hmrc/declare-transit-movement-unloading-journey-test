@@ -17,11 +17,9 @@
 package ctc.steps
 
 import ctc.pages._
-import ctc.utils.ScreenShotUtility
-import io.cucumber.scala.EN
-import io.cucumber.scala.ScalaDsl
+import io.cucumber.scala.{EN, ScalaDsl}
 
-class CommonSteps extends ScalaDsl with EN with ScreenShotUtility {
+class CommonSteps extends ScalaDsl with EN {
 
   And("""^(?:I )?pause execution for (.+) milliseconds$""") { delay: Int =>
     Thread.sleep(delay)
